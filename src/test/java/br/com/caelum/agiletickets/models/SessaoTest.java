@@ -1,10 +1,19 @@
 package br.com.caelum.agiletickets.models;
 
+import java.util.Random;
+
 import org.junit.Assert;
 import org.junit.Test;
 
 public class SessaoTest {
 
+	@Test
+	public void naoDeveVenderSeNaoHaVagas() throws Exception {
+		Sessao sessao = new Sessao();
+        sessao.setTotalIngressos(0);
+
+        Assert.assertFalse(sessao.podeReservar(5));
+	}
 
 	@Test
 	public void deveVender1ingressoSeHa2vagas() throws Exception {
