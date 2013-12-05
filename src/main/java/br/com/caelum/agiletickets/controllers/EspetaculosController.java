@@ -10,7 +10,6 @@ import org.joda.time.LocalTime;
 import br.com.caelum.agiletickets.domain.Agenda;
 import br.com.caelum.agiletickets.domain.DiretorioDeEstabelecimentos;
 import br.com.caelum.agiletickets.models.Espetaculo;
-import br.com.caelum.agiletickets.models.Estabelecimento;
 import br.com.caelum.agiletickets.models.Periodicidade;
 import br.com.caelum.agiletickets.models.Sessao;
 import br.com.caelum.vraptor.Get;
@@ -29,7 +28,6 @@ public class EspetaculosController {
 	private final Agenda agenda;
 	private Validator validator;
 	private Result result;
-
 	private final DiretorioDeEstabelecimentos estabelecimentos;
 
 	public EspetaculosController(Agenda agenda, DiretorioDeEstabelecimentos estabelecimentos, Validator validator, Result result) {
@@ -51,16 +49,18 @@ public class EspetaculosController {
 		// aqui eh onde fazemos as varias validacoes
 		// se nao tiver nome, avisa o usuario
 		// se nao tiver descricao, avisa o usuario
-		if (Strings.isNullOrEmpty(espetaculo.getNome())) {
-			validator.add(new ValidationMessage("Nome do espetáculo nao pode estar em branco", ""));
-		}
-		if (Strings.isNullOrEmpty(espetaculo.getDescricao())) {
-			validator.add(new ValidationMessage("Descricao do espetaculo nao pode estar em branco", ""));
-		}
+		verificaErro(Strings.isNullOrEmpty(espetaculo.getNome()), "Nome não pode estar em branco");
+		verificaErro(Strings.isNullOrEmpty(espetaculo.getDescricao()), "Descricao do espetaculo nao pode estar em branco");
 		validator.onErrorRedirectTo(this).lista();
 
 		agenda.cadastra(espetaculo);
 		result.redirectTo(this).lista();
+	}
+
+	private void verificaErro(boolean condicao, String msg) {
+		if (condicao) {
+			validator.add(new ValidationMessage(msg, ""));
+		}
 	}
 
 
@@ -79,16 +79,11 @@ public class EspetaculosController {
 		Sessao sessao = agenda.sessao(sessaoId);
 		if (sessao == null) {
 			result.notFound();
-			return;
+			//return;
 		}
+		verificaErro(quantidade < 1, "Voce deve escolher um lugar ou mais");		
+		verificaErro(!sessao.podeReservar(quantidade), "Nao existem ingressos disponíveis");
 
-		if (quantidade < 1) {
-			validator.add(new ValidationMessage("Voce deve escolher um lugar ou mais", ""));
-		}
-
-		if (!sessao.podeReservar(quantidade)) {
-			validator.add(new ValidationMessage("Nao existem ingressos dispon√≠veis", ""));
-		}
 
 		// em caso de erro, redireciona para a lista de sessao
 		validator.onErrorRedirectTo(this).sessao(sessao.getId());
@@ -123,9 +118,8 @@ public class EspetaculosController {
 
 	private Espetaculo carregaEspetaculo(Long espetaculoId) {
 		Espetaculo espetaculo = agenda.espetaculo(espetaculoId);
-		if (espetaculo == null) {
-			validator.add(new ValidationMessage("", ""));
-		}
+		verificaErro(espetaculo == null, "Espetaculo nao encontrado");	
+
 		validator.onErrorUse(status()).notFound();
 		return espetaculo;
 	}
