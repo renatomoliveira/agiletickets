@@ -108,7 +108,8 @@ public class EspetaculoTest {
 		Espetaculo espetaculo = new Espetaculo();
 		List<Sessao> sessoes = espetaculo.criaSessoes(dataAtual, dataAtual, horario, Periodicidade.SEMANAL);
 		Assert.assertEquals(1, sessoes.size());
-		Assert.assertEquals(dataHora, sessoes.get(0).getInicio());		 
+		Assert.assertEquals(dataHora, sessoes.get(0).getInicio());	
+		
 	}
 	
 	@Test
@@ -146,6 +147,7 @@ public class EspetaculoTest {
 		    sessao=sessoes.get(i);
 			DateTime dataHora = dataInicio.plusDays(i).toDateTime(horario);
 			Assert.assertEquals(dataHora, sessao.getInicio());
+			Assert.assertEquals(sessao.getEspetaculo(), espetaculo);
 			//i++;
 		}		
 	}
@@ -161,6 +163,7 @@ public class EspetaculoTest {
 		for (Sessao sessao : sessoes) {
 			DateTime dataHora = dataInicio.plusWeeks(i).toDateTime(horario);
 			Assert.assertEquals(dataHora, sessao.getInicio());
+			Assert.assertEquals(sessao.getEspetaculo(), espetaculo);
 			i++;
 		}	
 	}
