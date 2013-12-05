@@ -148,7 +148,7 @@ public class EspetaculoTest {
 			DateTime dataHora = dataInicio.plusDays(i).toDateTime(horario);
 			Assert.assertEquals(dataHora, sessao.getInicio());
 			Assert.assertEquals(sessao.getEspetaculo(), espetaculo);
-			Assert.assertTrue(false);
+			//Assert.assertTrue(false);
 			//i++;
 		}		
 	}
