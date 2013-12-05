@@ -104,6 +104,7 @@ public class Espetaculo {
 		if(inicio.isAfter(fim)) {
 			return lista;
 		}
+		
 		if(Periodicidade.DIARIA.equals(periodicidade)){
 			int diferencaDeDias = Days.daysBetween(inicio, fim).getDays();
 			for(int i=0;i<diferencaDeDias+1;i++){
