@@ -90,7 +90,7 @@ public class EspetaculoTest {
 	}
 	
 	@Test
-	public void deveCriarApenasUmaSessaoParaMesmoDia() {
+	public void deveCriarApenasUmaSessaoParaMesmoDiaDiario() {
 		LocalDate dataAtual = new LocalDate();
 		LocalTime horario = new LocalTime(21,00);
 		DateTime dataHora = dataAtual.toDateTime(horario);
@@ -101,12 +101,33 @@ public class EspetaculoTest {
 	}
 	
 	@Test
-	public void naoDeveCriarSessaoQuandoInicioMaiorQueFinal() {
+	public void deveCriarApenasUmaSessaoParaMesmoDiaSemanal() {
+		LocalDate dataAtual = new LocalDate();
+		LocalTime horario = new LocalTime(21,00);
+		DateTime dataHora = dataAtual.toDateTime(horario);
+		Espetaculo espetaculo = new Espetaculo();
+		List<Sessao> sessoes = espetaculo.criaSessoes(dataAtual, dataAtual, horario, Periodicidade.SEMANAL);
+		Assert.assertEquals(1, sessoes.size());
+		Assert.assertEquals(dataHora, sessoes.get(0).getInicio());		 
+	}
+	
+	@Test
+	public void naoDeveCriarSessaoQuandoInicioMaiorQueFinalDiario() {
 		LocalDate dataInicio = new LocalDate().plusDays(1);
 		LocalDate dataFinal = new LocalDate();
 		LocalTime horario = new LocalTime(21,00);
 		Espetaculo espetaculo = new Espetaculo();
 		List<Sessao> sessoes = espetaculo.criaSessoes(dataInicio, dataFinal, horario, Periodicidade.DIARIA);
+		Assert.assertEquals(0, sessoes.size());
+	}
+	
+	@Test
+	public void naoDeveCriarSessaoQuandoInicioMaiorQueFinalSemanal() {
+		LocalDate dataInicio = new LocalDate().plusDays(1);
+		LocalDate dataFinal = new LocalDate();
+		LocalTime horario = new LocalTime(21,00);
+		Espetaculo espetaculo = new Espetaculo();
+		List<Sessao> sessoes = espetaculo.criaSessoes(dataInicio, dataFinal, horario, Periodicidade.SEMANAL);
 		Assert.assertEquals(0, sessoes.size());
 	}
 	
