@@ -83,7 +83,7 @@ public class EspetaculosControllerTest {
 	public void naoDeveReservarZeroIngressos() throws Exception {
 		when(agenda.sessao(1234l)).thenReturn(new Sessao());
 
-		controller.reserva(1234l, 0);
+		controller.reserva(1234l, 0, 1);
 
 		verifyZeroInteractions(result);
 	}
@@ -95,7 +95,7 @@ public class EspetaculosControllerTest {
 
 		when(agenda.sessao(1234l)).thenReturn(sessao);
 
-		controller.reserva(1234l, 5);
+		controller.reserva(1234l, 5, 1);
 
 		verifyZeroInteractions(result);
 	}
@@ -108,7 +108,7 @@ public class EspetaculosControllerTest {
 
 		when(agenda.sessao(1234l)).thenReturn(sessao);
 
-		controller.reserva(1234l, 3);
+		controller.reserva(1234l, 3, 1);
 
 		assertThat(sessao.getIngressosDisponiveis(), is(2));
 	}
