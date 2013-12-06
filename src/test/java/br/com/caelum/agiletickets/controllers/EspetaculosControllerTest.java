@@ -132,7 +132,4 @@ public class EspetaculosControllerTest {
 		assertThat(sessao.getIngressosDisponiveis(), is(2));
 	}
 	
-	public void deveReservarSessao() throws Exception{
-		WebDir
-	}
 }
