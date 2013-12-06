@@ -13,7 +13,7 @@
 		<p><span class="label">Endereço:</span> ${sessao.espetaculo.estabelecimento.endereco }</p>
 		<p><span class="label">Descrição:</span> ${sessao.espetaculo.descricao }</p>
 		<p><span class="label">Duração:</span> ${sessao.duracaoEmMinutos } minutos</p>
-		<p><span class="label">Preco:</span> <fmt:formatNumber type="currency" value="${sessao.preco}" /></p>
+		<p><span class="label">Preco:</span> <div id="preco"><fmt:formatNumber type="currency" value="${sessao.preco}" /></div></p>
 		<p><span class="label">Ingressos disponíveis:</span> ${sessao.ingressosDisponiveis }</p>
 		<c:if test="${sessao.ingressosDisponiveis gt 0}">
 			<form action="/sessao/${sessao.id}/reserva" method="post">

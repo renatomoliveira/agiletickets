@@ -8,14 +8,19 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 import br.com.caelum.agiletickets.domain.Agenda;
 import br.com.caelum.agiletickets.domain.DiretorioDeEstabelecimentos;
+import br.com.caelum.agiletickets.integration.driver.EstabelecimentosDriver;
 import br.com.caelum.agiletickets.models.Espetaculo;
 import br.com.caelum.agiletickets.models.Sessao;
 import br.com.caelum.vraptor.Result;
@@ -31,6 +36,20 @@ public class EspetaculosControllerTest {
 	private @Mock DiretorioDeEstabelecimentos estabelecimentos;
 	private @Spy Validator validator = new MockValidator();
 	private @Spy Result result = new MockResult();
+	public static String BASE_URL = "http://localhost:8080";
+	private static WebDriver browser;
+	
+	@BeforeClass
+	public static void abreBrowser() {
+		browser = new FirefoxDriver();
+	}
+
+	@AfterClass
+	public static void teardown() {
+		browser.close();
+	}
+	
+	
 	private EspetaculosController controller;
 
 	@Before
@@ -111,5 +130,9 @@ public class EspetaculosControllerTest {
 		controller.reserva(1234l, 3, 1);
 
 		assertThat(sessao.getIngressosDisponiveis(), is(2));
+	}
+	
+	public void deveReservarSessao() throws Exception{
+		WebDir
 	}
 }
